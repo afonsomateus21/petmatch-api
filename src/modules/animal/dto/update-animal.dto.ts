@@ -1,6 +1,4 @@
-export class UpdateAnimalDto {
-    nome?: String;
-    idade?: Number;
-    descricao?: String;
-    status?: Boolean;
-}
+import { PartialType } from "@nestjs/mapped-types";
+import { CreateAnimalDto } from "./create-animal.dto";
+
+export class UpdateAnimalDto extends PartialType(CreateAnimalDto) {}
