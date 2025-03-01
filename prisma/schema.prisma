@@ -8,11 +8,11 @@ datasource db {
 }
 
 model adocao {
-  codigo_adocao   Int       @id
-  codigo_animal   Int?
-  codigo_adotante Int?
-  codigo_guardiao Int?
-  codigo_ong      Int?
+  codigo_adocao   String    @id @db.VarChar(100)
+  codigo_animal   String?   @db.VarChar(100)
+  codigo_adotante String?   @db.VarChar(100)
+  codigo_guardiao String?   @db.VarChar(100)
+  codigo_ong      String?   @db.VarChar(100)
   data_adocao     DateTime? @db.Date
   adotante        adotante? @relation(fields: [codigo_adotante], references: [codigo_usuario], onDelete: NoAction, onUpdate: NoAction)
   animal          animal?   @relation(fields: [codigo_animal], references: [codigo_animal], onDelete: NoAction, onUpdate: NoAction)
@@ -21,14 +21,14 @@ model adocao {
 }
 
 model adotante {
-  codigo_usuario Int         @id
+  codigo_usuario String      @id @db.VarChar(100)
   adocao         adocao[]
   usuario        usuario     @relation(fields: [codigo_usuario], references: [codigo_usuario], onDelete: NoAction, onUpdate: NoAction)
   avaliacao      avaliacao[]
 }
 
 model animal {
-  codigo_animal                           Int              @id
+  codigo_animal                           String           @id @db.VarChar(100)
   idade                                   Int?
   nome                                    String?          @db.VarChar(100)
   porte                                   String?          @db.VarChar(50)
@@ -37,10 +37,10 @@ model animal {
   descricao                               String?
   historico_medico                        String?
   status                                  String?          @db.VarChar(50)
-  codigo_guardiao                         Int?
-  codigo_adotante                         Int?
-  codigo_ong                              Int?
-  codigo_tipo_animal                      Int?
+  codigo_guardiao                         String?          @db.VarChar(100)
+  codigo_adotante                         String?          @db.VarChar(100)
+  codigo_ong                              String?          @db.VarChar(100)
+  codigo_tipo_animal                      String?          @db.VarChar(100)
   adocao                                  adocao[]
   usuario_animal_codigo_adotanteTousuario usuario?         @relation("animal_codigo_adotanteTousuario", fields: [codigo_adotante], references: [codigo_usuario], onDelete: NoAction, onUpdate: NoAction)
   usuario_animal_codigo_guardiaoTousuario usuario?         @relation("animal_codigo_guardiaoTousuario", fields: [codigo_guardiao], references: [codigo_usuario], onDelete: NoAction, onUpdate: NoAction)
@@ -52,8 +52,8 @@ model animal {
 }
 
 model animal_vacina {
-  codigo_animal  Int
-  codigo_vacina  Int
+  codigo_animal  String   @db.VarChar(100)
+  codigo_vacina  String   @db.VarChar(100)
   data_aplicacao DateTime @db.Date
   animal         animal   @relation(fields: [codigo_animal], references: [codigo_animal], onDelete: NoAction, onUpdate: NoAction)
   vacina         vacina   @relation(fields: [codigo_vacina], references: [codigo_vacina], onDelete: NoAction, onUpdate: NoAction)
@@ -62,64 +62,64 @@ model animal_vacina {
 }
 
 model avaliacao {
-  codigo_avaliacao Int       @id
+  codigo_avaliacao String    @id @db.VarChar(100)
   nota             Int?
   observacoes      String?
-  codigo_adotante  Int?
-  codigo_guardiao  Int?
-  codigo_ong       Int?
+  codigo_adotante  String?   @db.VarChar(100)
+  codigo_guardiao  String?   @db.VarChar(100)
+  codigo_ong       String?   @db.VarChar(100)
   adotante         adotante? @relation(fields: [codigo_adotante], references: [codigo_usuario], onDelete: NoAction, onUpdate: NoAction)
   guardiao         guardiao? @relation(fields: [codigo_guardiao], references: [codigo_usuario], onDelete: NoAction, onUpdate: NoAction)
   ong              ong?      @relation(fields: [codigo_ong], references: [codigo_ong], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model certificacao {
-  codigo_certificacao Int                   @id
+  codigo_certificacao String                @id @db.VarChar(100)
   data_emissao        DateTime              @db.Date
   emissor             String                @db.VarChar(100)
   possui_certificacao possui_certificacao[]
 }
 
 model contato {
-  codigo_contato Int      @id
+  codigo_contato String   @id @db.VarChar(100)
   telefone       String?  @db.VarChar(20)
   email          String?  @db.VarChar(255)
   instagram      String?  @db.VarChar(100)
   twitter        String?  @db.VarChar(100)
   facebook       String?  @db.VarChar(100)
-  codigo_usuario Int?
-  codigo_ong     Int?
+  codigo_usuario String?  @db.VarChar(100)
+  codigo_ong     String?  @db.VarChar(100)
   ong            ong?     @relation(fields: [codigo_ong], references: [codigo_ong], onDelete: NoAction, onUpdate: NoAction)
   usuario        usuario? @relation(fields: [codigo_usuario], references: [codigo_usuario], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model endereco {
-  codigo_endereco Int      @id
+  codigo_endereco String   @id @db.VarChar(100)
   cep             String?  @db.VarChar(10)
   rua             String?  @db.VarChar(100)
   numero          String?  @db.VarChar(10)
   bairro          String?  @db.VarChar(50)
   cidade          String?  @db.VarChar(50)
   estado          String?  @db.Char(2)
-  codigo_usuario  Int?
-  codigo_ong      Int?
+  codigo_usuario  String?  @db.VarChar(100)
+  codigo_ong      String?  @db.VarChar(100)
   ong             ong?     @relation(fields: [codigo_ong], references: [codigo_ong], onDelete: NoAction, onUpdate: NoAction)
   usuario         usuario? @relation(fields: [codigo_usuario], references: [codigo_usuario], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model evento {
-  codigo_evento    Int                @id
+  codigo_evento    String             @id @db.VarChar(100)
   nome             String             @db.VarChar(100)
   descricao        String?
   data             DateTime           @db.Date
-  codigo_ong       Int?
+  codigo_ong       String?            @db.VarChar(100)
   ong              ong?               @relation(fields: [codigo_ong], references: [codigo_ong], onDelete: NoAction, onUpdate: NoAction)
   participa_evento participa_evento[]
 }
 
 model favoritos {
-  codigo_usuario Int
-  codigo_animal  Int
+  codigo_usuario String    @db.VarChar(100)
+  codigo_animal  String    @db.VarChar(100)
   data_entrada   DateTime? @db.Date
   animal         animal    @relation(fields: [codigo_animal], references: [codigo_animal], onDelete: NoAction, onUpdate: NoAction)
   usuario        usuario   @relation(fields: [codigo_usuario], references: [codigo_usuario], onDelete: NoAction, onUpdate: NoAction)
@@ -128,8 +128,8 @@ model favoritos {
 }
 
 model fila_interesse {
-  codigo_usuario Int
-  codigo_animal  Int
+  codigo_usuario String    @db.VarChar(100)
+  codigo_animal  String    @db.VarChar(100)
   data_entrada   DateTime? @db.Date
   animal         animal    @relation(fields: [codigo_animal], references: [codigo_animal], onDelete: NoAction, onUpdate: NoAction)
   usuario        usuario   @relation(fields: [codigo_usuario], references: [codigo_usuario], onDelete: NoAction, onUpdate: NoAction)
@@ -138,7 +138,7 @@ model fila_interesse {
 }
 
 model guardiao {
-  codigo_usuario Int         @id
+  codigo_usuario String      @id @db.VarChar(100)
   especialidade  String?     @db.VarChar(100)
   adocao         adocao[]
   avaliacao      avaliacao[]
@@ -146,7 +146,7 @@ model guardiao {
 }
 
 model ong {
-  codigo_ong Int         @id
+  codigo_ong String      @id @db.VarChar(100)
   nome       String      @db.VarChar(100)
   descricao  String?
   capacidade Int?
@@ -159,8 +159,8 @@ model ong {
 }
 
 model participa_evento {
-  codigo_usuario Int
-  codigo_evento  Int
+  codigo_usuario String    @db.VarChar(100)
+  codigo_evento  String    @db.VarChar(100)
   data_inscricao DateTime? @db.Date
   evento         evento    @relation(fields: [codigo_evento], references: [codigo_evento], onDelete: NoAction, onUpdate: NoAction)
   usuario        usuario   @relation(fields: [codigo_usuario], references: [codigo_usuario], onDelete: NoAction, onUpdate: NoAction)
@@ -169,8 +169,8 @@ model participa_evento {
 }
 
 model possui_certificacao {
-  codigo_certificacao Int
-  codigo_usuario      Int
+  codigo_certificacao String       @db.VarChar(100)
+  codigo_usuario      String       @db.VarChar(100)
   certificacao        certificacao @relation(fields: [codigo_certificacao], references: [codigo_certificacao], onDelete: NoAction, onUpdate: NoAction)
   usuario             usuario      @relation(fields: [codigo_usuario], references: [codigo_usuario], onDelete: NoAction, onUpdate: NoAction)
 
@@ -178,13 +178,13 @@ model possui_certificacao {
 }
 
 model tipo_animal {
-  codigo  Int      @id
+  codigo  String   @id @db.VarChar(100)
   especie String   @db.VarChar(50)
   animal  animal[]
 }
 
 model usuario {
-  codigo_usuario                         Int                   @id
+  codigo_usuario                         String                @id @db.VarChar(100)
   senha                                  String                @db.VarChar(255)
   email                                  String                @db.VarChar(255)
   login                                  String                @db.VarChar(50)
@@ -202,7 +202,7 @@ model usuario {
 }
 
 model vacina {
-  codigo_vacina Int             @id
+  codigo_vacina String          @id @db.VarChar(100)
   nome          String          @db.VarChar(100)
   descricao     String?
   data_validade DateTime        @db.Date
